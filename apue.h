@@ -31,7 +31,7 @@
 /**
  * Default file access permissions for new files
  */
-#define FILE_MODE (S_IRUSER | S_IWUSER | S_IRGRP | S_IROTH)
+#define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
 #define DIR_MODE (FILE_MODE | S_IXUSR | S_IXOTH)
 
 typedef void Sigfunc(int); /* for signal handlers*/
@@ -54,6 +54,18 @@ void log_quit(const char *, ...) __attribute__((noreturn));
 void log_ret(const char *, ...);
 void log_sys(const char *, ...) __attribute__((noreturn));
 void log_exit(int, const char *, ...) __attribute__((noreturn));
+
+/* for file io */
+
+/**
+ * flags are file status flags to turn on
+ */
+void set_fl(int fd, int flags);
+
+/*for compat */
+#ifndef __APPLE__
+int futimens(int fd, const struct timespec times[2]);
+#endif
 
 
 #endif /* apue_h */
